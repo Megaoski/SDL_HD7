@@ -26,9 +26,11 @@ public:
 	Animation up;
 	Animation down;
 	iPoint position;
-	void OnCollision(Collider* p1, Collider* p2);
+	void OnCollision(Collider* c1, Collider* c2);
 
-	Collider* player_collider = nullptr;
+	Collider* player_collider;
+
+	
 	
 };
 

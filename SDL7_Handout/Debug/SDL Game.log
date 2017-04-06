@@ -1,5 +1,7 @@
 ﻿  ModulePlayer.cpp
-  ModuleCollision.cpp
   Generating Code...
-  SDL Game.vcxproj -> C:\Users\oscarll3\Downloads\SDL7_Handout\Debug\SDL7 Handout.exe
-  SDL Game.vcxproj -> C:\Users\oscarll3\Downloads\SDL7_Handout\Debug\SDL7 Handout.pdb (Full PDB)
+  Skipping... (no relevant changes detected)
+  ModuleSceneSpace.cpp
+  Application.cpp
+  SDL Game.vcxproj -> C:\Users\Usuario\Documents\GitHub\SDL_HD7\SDL7_Handout\Debug\SDL7 Handout.exe
+  SDL Game.vcxproj -> C:\Users\Usuario\Documents\GitHub\SDL_HD7\SDL7_Handout\Debug\SDL7 Handout.pdb (Full PDB)

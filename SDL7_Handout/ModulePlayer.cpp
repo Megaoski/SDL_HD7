@@ -62,6 +62,9 @@ bool ModulePlayer::CleanUp()
 
 	App->textures->Unload(graphics);
 
+	if (player_collider != nullptr)
+		player_collider->to_delete = true;
+
 	return true;
 }
 
@@ -120,15 +123,17 @@ update_status ModulePlayer::Update()
 
 // TODO 4: Detect collision with a wall. If so, go back to intro screen.
  
-void ModulePlayer::OnCollision( Collider* p1, Collider* p2)
+void ModulePlayer::OnCollision( Collider* c1, Collider* c2)
 {
-
 	
-	if (p1->rect.h == p2->rect.h && p1->rect.w == p2->rect.w)
-		{
-			App->fade->FadeToBlack(this, (Module*)App->scene_intro, 1.0f);
+	if (c1 = player_collider)
+	{
+	
+		App->fade->FadeToBlack((Module*)App->scene_space, (Module*)App->scene_intro);
 
-		}
+	}
+	
+
 	
 	
 
