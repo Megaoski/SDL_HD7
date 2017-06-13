@@ -25,6 +25,8 @@ public:
 	Animation idle;
 	Animation up;
 	Animation down;
+	Animation left;
+	Animation right;
 	Animation punch;
 	iPoint position;
 	
@@ -33,10 +35,19 @@ public:
 	Collider* player_collider;
 	iPoint collider_offset;
 	bool jump;
-	float jumpVelo;
-	float gravity;
 	//iPoint direction = { 0,1 }; still needs to be implemented
-	
+private:
+	enum player_state {
+		OFF = 0,
+		DEAD,
+		IDLE,
+		LEFT,
+		RIGHT,
+		UP,
+		CROUCH
+	};
+
+	player_state state;
 	
 };
 

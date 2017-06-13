@@ -32,6 +32,14 @@ ModulePlayer::ModulePlayer()
 	down.loop = false;
 
 
+	left.SetUp(435, 16, 50, 52, 2, 2, "1");
+	left.speed = 0.1f;
+	
+
+	right.SetUp(543, 16, 40, 52, 6, 6, "0,1,2,3,4,5");
+	right.speed = 0.1f;
+	/*right.loop = false;*/
+
 
 	punch.SetUp(216, 16, 50, 52, 3, 3, "0,1,2");
 	punch.speed = 0.5f;
@@ -53,8 +61,7 @@ bool ModulePlayer::Start()
 	position.y = 134;
 	
 	jump = false;
-	jumpVelo = 70;
-	gravity = 2;
+	
 
 	//direction = { -1,0 }; needs to be implemented
 	
@@ -62,6 +69,9 @@ bool ModulePlayer::Start()
 	collider_offset.x = 7;
 	collider_offset.y = 2;
 	player_collider = App->collision->AddCollider({0, 0, 37, 50}, COLLIDER_PLAYER, this);
+
+	current_animation = &idle;
+	state = IDLE;
 
 	return true;
 }
@@ -84,54 +94,163 @@ update_status ModulePlayer::Update()
 {
 	int speed = 2;
 
-	//position += velocity;
-	//velocity += acceleration;
-	///*position = acceleration - velocity;*/
+	switch (state) {
 
-	if(App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
-	{
-		position.x -= speed;
-	}
+	case IDLE:
 
-	if(App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
-	{
-		position.x += speed;
-	}
-
-	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_DOWN)
-	{
-		
-		if(current_animation != &down)
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
 		{
-			/*down.Reset();*/
+			position.x -= speed;
+			current_animation = &left;			
+			state = LEFT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { //con esto se evita que se quede calada la animacion al soltar la tecla
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		{
+			position.x += speed;
+			current_animation = &right;
+			state = RIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP)
+		{
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+		{
 			current_animation = &down;
+			state = CROUCH;
 		}
-	}
 
-	if(App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_DOWN && !jump)
-	{
-		current_animation = &up;
-
-		jump = true;
-
-		if (jump)
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP)
 		{
-			position.y -= jumpVelo;
-			jumpVelo -= gravity;
+			current_animation = &idle;
+			state = IDLE;
 		}
+
+		break;
+
+	case LEFT:
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
+		{
+			position.x -= speed;
+			current_animation = &left;
+			state = LEFT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		{
+			position.x += speed;
+			current_animation = &right;
+			state = RIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+		{
+			current_animation = &down;
+			state = CROUCH;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+		break;
+	case RIGHT:
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
+		{
+			position.x -= speed;
+			current_animation = &left;
+			state = LEFT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		{
+			position.x += speed;
+			current_animation = &right;
+			state = RIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+		{
+			current_animation = &down;
+			state = CROUCH;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+		break;
+	case CROUCH:
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
+		{
+			current_animation = &down;
+			state = CROUCH;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		{
+			current_animation = &down;
+			state = CROUCH;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+		{
+			current_animation = &down;
+			state = CROUCH;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+		break;
+
+
+	} //finish switch
 
 	
-	}
-
-	if(App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
-	{
-		
-		current_animation = &punch;
-	}
-
-	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_IDLE
-	   && App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_IDLE)
-		current_animation = &idle;
 
 
 
