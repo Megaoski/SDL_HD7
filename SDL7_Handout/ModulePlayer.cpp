@@ -8,6 +8,7 @@
 #include "ModuleFadeToBlack.h"
 #include "ModulePlayer.h"
 #include "ModuleSceneSpace.h"
+#include "SDL/include/SDL_timer.h"
 
 
 
@@ -46,10 +47,16 @@ bool ModulePlayer::Start()
 
 	graphics = App->textures->Load("rtype/sprites-finales.png");
 
+
+	
 	position.x = 150;
 	position.y = 134;
+	
+	jump = false;
+	jumpVelo = 70;
+	gravity = 2;
 
-	// TODO 2: Add a collider to the player
+	//direction = { -1,0 }; needs to be implemented
 	
 	
 	collider_offset.x = 7;
@@ -77,12 +84,16 @@ update_status ModulePlayer::Update()
 {
 	int speed = 2;
 
-	if(App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT)
+	//position += velocity;
+	//velocity += acceleration;
+	///*position = acceleration - velocity;*/
+
+	if(App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
 	{
 		position.x -= speed;
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT)
+	if(App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
 	{
 		position.x += speed;
 	}
@@ -97,14 +108,19 @@ update_status ModulePlayer::Update()
 		}
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_REPEAT)
+	if(App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_DOWN && !jump)
 	{
-		
-		if(current_animation != &up)
+		current_animation = &up;
+
+		jump = true;
+
+		if (jump)
 		{
-			up.Reset();
-			current_animation = &up;
+			position.y -= jumpVelo;
+			jumpVelo -= gravity;
 		}
+
+	
 	}
 
 	if(App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
@@ -145,3 +161,11 @@ void ModulePlayer::OnCollision( Collider* c1, Collider* c2)
 	
 
 }
+
+//bool ModulePlayer::isGrounded()
+//{
+//	if (position.y == 134)
+//		return true;
+//	else
+//		return false;
+//}

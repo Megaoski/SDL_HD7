@@ -27,11 +27,15 @@ public:
 	Animation down;
 	Animation punch;
 	iPoint position;
+	
 	void OnCollision(Collider* c1, Collider* c2);
 
 	Collider* player_collider;
 	iPoint collider_offset;
-
+	bool jump;
+	float jumpVelo;
+	float gravity;
+	//iPoint direction = { 0,1 }; still needs to be implemented
 	
 	
 };
