@@ -10,7 +10,6 @@
 #include "ModuleSceneSpace.h"
 
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
 
 
 
@@ -23,12 +22,17 @@ ModulePlayer::ModulePlayer()
 
 
 	up.SetUp(10, 16, 49, 60, 4, 4, "0,1,2,3");
-	up.speed = 0.5f;
+	up.speed = 0.1f;
 
 
 
-	down.SetUp(10, 16, 49, 60, 4, 4, "0,1,2,3");
-	down.speed = 0.5f;
+	down.SetUp(8, 380, 50, 50, 3, 3, "0,1,2");
+	down.speed = 0.1f;
+
+
+
+	punch.SetUp(0, 448, 70, 56, 6, 6, "1,3,5");
+	punch.speed = 0.5f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -39,7 +43,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/sprites.png");
+	graphics = App->textures->Load("rtype/sprites-finales.png");
 
 	position.x = 150;
 	position.y = 120;
@@ -70,7 +74,7 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
-	int speed = 1;
+	int speed = 2;
 
 	if(App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT)
 	{
@@ -84,17 +88,17 @@ update_status ModulePlayer::Update()
 
 	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 	{
-		position.y += speed;
+		
 		if(current_animation != &down)
 		{
-			down.Reset();
+			/*down.Reset();*/
 			current_animation = &down;
 		}
 	}
 
 	if(App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_REPEAT)
 	{
-		position.y -= speed;
+		
 		if(current_animation != &up)
 		{
 			up.Reset();
@@ -104,12 +108,15 @@ update_status ModulePlayer::Update()
 
 	if(App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
 	{
-		App->particles->AddParticle(App->particles->laser, position.x + 20, position.y, COLLIDER_PLAYER_SHOT);
+		
+		current_animation = &punch;
 	}
 
 	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_IDLE
 	   && App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_IDLE)
 		current_animation = &idle;
+
+
 
 	// TODO 3: Update collider position to player position
 	player_collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
@@ -128,7 +135,7 @@ void ModulePlayer::OnCollision( Collider* c1, Collider* c2)
 	if (c1 = player_collider)
 	{
 	
-		App->fade->FadeToBlack((Module*)App->scene_space, (Module*)App->scene_intro);
+		/*App->fade->FadeToBlack((Module*)App->scene_space, (Module*)App->scene_intro);*/
 
 	}
 	

@@ -25,6 +25,7 @@ public:
 	Animation idle;
 	Animation up;
 	Animation down;
+	Animation punch;
 	iPoint position;
 	void OnCollision(Collider* c1, Collider* c2);
 
