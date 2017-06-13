@@ -17,20 +17,18 @@
 
 ModulePlayer::ModulePlayer()
 {
-	// idle animation (just the ship)
-	idle.PushBack({66, 1, 32, 14});
+	idle.SetUp(10, 16, 49, 60, 4, 4, "0,1,2,3");
+	idle.speed = 0.1f;
 
-	// move upwards
-	up.PushBack({100, 1, 32, 14});
-	up.PushBack({132, 0, 32, 14});
-	up.loop = false;
-	up.speed = 0.1f;
 
-	// Move down
-	down.PushBack({33, 1, 32, 14});
-	down.PushBack({0, 1, 32, 14});
-	down.loop = false;
-	down.speed = 0.1f;
+
+	up.SetUp(10, 16, 49, 60, 4, 4, "0,1,2,3");
+	up.speed = 0.5f;
+
+
+
+	down.SetUp(10, 16, 49, 60, 4, 4, "0,1,2,3");
+	down.speed = 0.5f;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -41,7 +39,7 @@ bool ModulePlayer::Start()
 {
 	LOG("Loading player");
 
-	graphics = App->textures->Load("rtype/ship.png");
+	graphics = App->textures->Load("rtype/sprites.png");
 
 	position.x = 150;
 	position.y = 120;
@@ -49,8 +47,9 @@ bool ModulePlayer::Start()
 	// TODO 2: Add a collider to the player
 	
 	
-	
-	player_collider = App->collision->AddCollider({300, 100, 32, 14}, COLLIDER_PLAYER, this);
+	collider_offset.x = 5;
+	collider_offset.y = 0;
+	player_collider = App->collision->AddCollider({0, 0, 40, 55}, COLLIDER_PLAYER, this);
 
 	return true;
 }
@@ -113,8 +112,8 @@ update_status ModulePlayer::Update()
 		current_animation = &idle;
 
 	// TODO 3: Update collider position to player position
-	player_collider->SetPos(position.x, position.y);
-
+	player_collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
+	
 	// Draw everything --------------------------------------
 	App->render->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
 

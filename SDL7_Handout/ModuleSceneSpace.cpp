@@ -53,10 +53,10 @@ bool ModuleSceneSpace::CleanUp()
 update_status ModuleSceneSpace::Update()
 {
 	// Move camera forward -----------------------------
-	int scroll_speed = 1;
+	int scroll_speed = 0;
 
-	App->player->position.x += 1;
-	App->render->camera.x -= 3;
+	/*App->player->position.x += 1;*/
+	/*App->render->camera.x -= 3;*/
 	
 
 	// Draw everything --------------------------------------

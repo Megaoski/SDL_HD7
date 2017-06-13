@@ -29,6 +29,7 @@ public:
 	void OnCollision(Collider* c1, Collider* c2);
 
 	Collider* player_collider;
+	iPoint collider_offset;
 
 	
 	
