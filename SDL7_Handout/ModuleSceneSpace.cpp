@@ -7,7 +7,7 @@
 #include "ModuleParticles.h"
 #include "ModuleSceneSpace.h"
 
-// Reference at https://www.youtube.com/watch?v=OEhmUuehGOA
+
 
 ModuleSceneSpace::ModuleSceneSpace()
 {}
@@ -27,11 +27,8 @@ bool ModuleSceneSpace::Start()
 	App->collision->Enable();
 	
 	// Colliders ---
-	App->collision->AddCollider({0, 225, 3930, 16}, COLLIDER_WALL);
-
-	// TODO 1: Add colliders for the first columns of the level
-
-	App->collision->AddCollider({1375, 0, 120, 100}, COLLIDER_WALL);
+	App->collision->AddCollider({0, 187, 3930, 16}, COLLIDER_WALL);
+	App->collision->AddCollider({0, 0, 2, 200}, COLLIDER_WALL);
 	App->collision->AddCollider({1375, 141, 120, 100}, COLLIDER_WALL);
 	return true;
 }

@@ -16,22 +16,23 @@
 
 ModulePlayer::ModulePlayer()
 {
-	idle.SetUp(10, 16, 49, 60, 4, 4, "0,1,2,3");
+	idle.SetUp(6, 16, 50, 52, 4, 4, "0,1,2,3");
 	idle.speed = 0.1f;
 
 
 
-	up.SetUp(10, 16, 49, 60, 4, 4, "0,1,2,3");
+	up.SetUp(6, 16, 50, 52, 4, 4, "0,1,2,3");
 	up.speed = 0.1f;
 
 
 
-	down.SetUp(8, 380, 50, 50, 3, 3, "0,1,2");
+	down.SetUp(216, 16, 50, 52, 3, 3, "0,1,2");
 	down.speed = 0.1f;
+	down.loop = false;
 
 
 
-	punch.SetUp(0, 448, 70, 56, 6, 6, "1,3,5");
+	punch.SetUp(216, 16, 50, 52, 3, 3, "0,1,2");
 	punch.speed = 0.5f;
 }
 
@@ -46,14 +47,14 @@ bool ModulePlayer::Start()
 	graphics = App->textures->Load("rtype/sprites-finales.png");
 
 	position.x = 150;
-	position.y = 120;
+	position.y = 134;
 
 	// TODO 2: Add a collider to the player
 	
 	
-	collider_offset.x = 5;
-	collider_offset.y = 0;
-	player_collider = App->collision->AddCollider({0, 0, 40, 55}, COLLIDER_PLAYER, this);
+	collider_offset.x = 7;
+	collider_offset.y = 2;
+	player_collider = App->collision->AddCollider({0, 0, 37, 50}, COLLIDER_PLAYER, this);
 
 	return true;
 }
@@ -64,7 +65,7 @@ bool ModulePlayer::CleanUp()
 	LOG("Unloading player");
 
 	App->textures->Unload(graphics);
-
+	
 	if (player_collider != nullptr)
 		player_collider->to_delete = true;
 
@@ -86,7 +87,7 @@ update_status ModulePlayer::Update()
 		position.x += speed;
 	}
 
-	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+	if(App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_DOWN)
 	{
 		
 		if(current_animation != &down)
