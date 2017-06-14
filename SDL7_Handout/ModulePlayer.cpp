@@ -38,10 +38,10 @@ ModulePlayer::ModulePlayer()
 
 	right.SetUp(543, 16, 40, 52, 6, 6, "0,1,2,3,4,5");
 	right.speed = 0.1f;
-	/*right.loop = false;*/
+	
 
 
-	punch.SetUp(0, 70, 60, 52, 1, 1, "0");
+	punch.SetUp(0, 70, 60, 52, 2, 2, "1");
 	punch.speed = 0.1f;
 	punch.loop = false;
 	
@@ -161,7 +161,7 @@ update_status ModulePlayer::Update()
 				else if (current_animation == &punch) {
 					punch.Finished();
 					current_animation = &idle;
-					state = FIGHT;
+					state = IDLE; // PUEDE JODER LAS COSAS, SI ESO CAMBIAR A FIGHT
 				}
 			
 			
@@ -380,7 +380,7 @@ update_status ModulePlayer::Update()
 			{
 				punch.Finished();
 				current_animation = &idle;
-				state = FIGHT;
+				state = FIGHT; //ESTO HACE QUE EL PUNCH NO HAGA TEMBLEQUE INDEFINIDO
 			}
 
 			
