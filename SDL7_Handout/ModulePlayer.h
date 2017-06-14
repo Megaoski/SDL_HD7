@@ -28,7 +28,8 @@ public:
 	Animation left;
 	Animation right;
 	Animation punch;
-	iPoint position;
+	iPoint original_position;
+	iPoint current_position;
 	
 	void OnCollision(Collider* c1, Collider* c2);
 

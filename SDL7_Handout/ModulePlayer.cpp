@@ -57,8 +57,8 @@ bool ModulePlayer::Start()
 
 
 	
-	position.x = 150;
-	position.y = 134;
+	original_position.x = 150;
+	original_position.y = 134;
 	
 	jump = false;
 	
@@ -98,9 +98,9 @@ update_status ModulePlayer::Update()
 
 	case IDLE:
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
-			position.x -= speed;
+			current_position.x -= speed;
 			current_animation = &left;			
 			state = LEFT;
 		}
@@ -110,9 +110,9 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
-			position.x += speed;
+			current_position.x += speed;
 			current_animation = &right;
 			state = RIGHT;
 		}
@@ -139,9 +139,9 @@ update_status ModulePlayer::Update()
 
 	case LEFT:
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
-			position.x -= speed;
+			current_position.x -= speed;
 			current_animation = &left;
 			state = LEFT;
 		}
@@ -151,9 +151,9 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
-			position.x += speed;
+			current_position.x += speed;
 			current_animation = &right;
 			state = RIGHT;
 		}
@@ -176,9 +176,9 @@ update_status ModulePlayer::Update()
 		break;
 	case RIGHT:
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
-			position.x -= speed;
+			current_position.x -= speed;
 			current_animation = &left;
 			state = LEFT;
 		}
@@ -188,9 +188,9 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
-			position.x += speed;
+			current_position.x += speed;
 			current_animation = &right;
 			state = RIGHT;
 		}
@@ -213,7 +213,7 @@ update_status ModulePlayer::Update()
 		break;
 	case CROUCH:
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->position.x >= -7)
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
 			current_animation = &down;
 			state = CROUCH;
@@ -224,7 +224,7 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->position.x <= 342)
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
 			current_animation = &down;
 			state = CROUCH;
@@ -255,10 +255,10 @@ update_status ModulePlayer::Update()
 
 
 	// TODO 3: Update collider position to player position
-	player_collider->SetPos(position.x + collider_offset.x, position.y + collider_offset.y);
+	player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);
 	
 	// Draw everything --------------------------------------
-	App->render->Blit(graphics, position.x, position.y, &(current_animation->GetCurrentFrame()));
+	App->render->Blit(graphics, current_position.x, current_position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
 }
