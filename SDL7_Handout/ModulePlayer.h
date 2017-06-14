@@ -30,7 +30,9 @@ public:
 	Animation punch;
 	iPoint original_position;
 	iPoint current_position;
-	
+	void jumping();
+	float gravity;
+	float kilos;
 	void OnCollision(Collider* c1, Collider* c2);
 
 	Collider* player_collider;
@@ -45,7 +47,8 @@ private:
 		LEFT,
 		RIGHT,
 		UP,
-		CROUCH
+		CROUCH,
+		FIGHT
 	};
 
 	player_state state;

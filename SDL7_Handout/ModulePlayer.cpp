@@ -41,8 +41,9 @@ ModulePlayer::ModulePlayer()
 	/*right.loop = false;*/
 
 
-	punch.SetUp(216, 16, 50, 52, 3, 3, "0,1,2");
-	punch.speed = 0.5f;
+	punch.SetUp(0, 70, 60, 52, 3, 3, "0,1,2");
+	punch.speed = 0.1f;
+	punch.loop = true;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -59,6 +60,9 @@ bool ModulePlayer::Start()
 	
 	original_position.x = 150;
 	original_position.y = 134;
+	current_position.x = 150;
+	current_position.y = 134;
+	
 	
 	jump = false;
 	
@@ -93,7 +97,9 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 	int speed = 2;
-
+	gravity = 0.8f;
+	kilos = 10;
+	
 	switch (state) {
 
 	case IDLE:
@@ -135,6 +141,21 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 
+		if (App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_DOWN && App->player->current_position.y >= 60)
+		{
+			
+
+			current_animation = &idle;
+			state = IDLE;
+		}
+		
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
+		{
+			current_animation = &punch;
+			state = FIGHT;
+		}
+
+		
 		break;
 
 	case LEFT:
@@ -246,6 +267,43 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 		break;
+	case FIGHT:
+
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
+		{
+			current_animation = &punch;
+			state = FIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
+		{
+			current_animation = &down;
+			state = CROUCH;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+		{
+			current_animation = &down;
+			state = CROUCH;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+		break;
+
 
 
 	} //finish switch
@@ -254,10 +312,10 @@ update_status ModulePlayer::Update()
 
 
 
-	// TODO 3: Update collider position to player position
+	
 	player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);
 	
-	// Draw everything --------------------------------------
+	
 	App->render->Blit(graphics, current_position.x, current_position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
@@ -271,7 +329,7 @@ void ModulePlayer::OnCollision( Collider* c1, Collider* c2)
 	if (c1 = player_collider)
 	{
 	
-		/*App->fade->FadeToBlack((Module*)App->scene_space, (Module*)App->scene_intro);*/
+		current_position.y = 134;
 
 	}
 	
@@ -281,6 +339,10 @@ void ModulePlayer::OnCollision( Collider* c1, Collider* c2)
 
 }
 
+void ModulePlayer::jumping()
+{
+	current_position.y -= gravity;
+}
 //bool ModulePlayer::isGrounded()
 //{
 //	if (position.y == 134)
