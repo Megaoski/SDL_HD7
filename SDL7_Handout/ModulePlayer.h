@@ -31,6 +31,7 @@ public:
 	Animation left;
 	Animation right;
 	Animation punch;
+
 	iPoint original_position;
 	iPoint current_position;
 	/*void jumping();

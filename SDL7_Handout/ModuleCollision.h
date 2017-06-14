@@ -54,6 +54,8 @@ public:
 	Collider* AddCollider(SDL_Rect rect, COLLIDER_TYPE type, Module* callback = nullptr);
 	bool EraseCollider(Collider* collider);
 	void DebugDraw();
+	void ColliderSize(Collider* collider, SDL_Rect rectNew);
+	bool ReverseSize = false;
 
 private:
 

@@ -136,7 +136,7 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
-			
+			App->collision->ColliderSize(player_collider, { 0, 0, 100, 40 });
 			
 			current_animation = &down;
 			state = CROUCH;
@@ -144,7 +144,7 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP)
 		{
-			
+			App->collision->ColliderSize(player_collider, { 0, 0, 15, 40 });
 			current_animation = &idle;
 			state = IDLE;
 		}
@@ -327,7 +327,7 @@ update_status ModulePlayer::Update()
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
-			
+			App->collision->ColliderSize(player_collider, { 0, 0, 15, 40 });
 			current_animation = &idle;
 			state = IDLE;
 		}

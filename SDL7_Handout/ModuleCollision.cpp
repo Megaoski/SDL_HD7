@@ -201,4 +201,31 @@ bool Collider::CheckCollision(const SDL_Rect& r) const
 	
 }
 
+void ModuleCollision::ColliderSize(Collider* collider, SDL_Rect rectNew)//con esta funcion podemos modificar anchura y altura colliders 
+{
+
+
+	for (uint i = 0; i < MAX_COLLIDERS; ++i)
+	{
+
+		if (colliders[i] == nullptr)
+			continue;
+
+	
+		collider->rect.w = rectNew.w;
+		collider->rect.h = rectNew.h;
+			
+		if (ReverseSize == true)
+		{
+			collider->rect.w = collider->rect.w;
+			collider->rect.h = collider->rect.h;
+
+			ReverseSize = false;
+		}
+		
+	}
+
+}
+
+
 
