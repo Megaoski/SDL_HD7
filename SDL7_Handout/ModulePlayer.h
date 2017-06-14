@@ -40,8 +40,9 @@ public:
 
 	Collider* player_collider;
 	iPoint collider_offset;
-	bool jump;
-	bool punching = false;
+	uint sdl_clock_start;
+	uint sdl_clock;
+	
 	//iPoint direction = { 0,1 }; still needs to be implemented
 private:
 	enum player_state {

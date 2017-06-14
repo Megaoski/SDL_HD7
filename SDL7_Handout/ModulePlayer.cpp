@@ -42,8 +42,9 @@ ModulePlayer::ModulePlayer()
 
 
 	punch.SetUp(0, 70, 60, 52, 1, 1, "0");
-	punch.speed = 0.2f;
+	punch.speed = 0.1f;
 	punch.loop = false;
+	
 }
 
 ModulePlayer::~ModulePlayer()
@@ -64,7 +65,7 @@ bool ModulePlayer::Start()
 	current_position.y = 134;
 	
 	
-	jump = false;
+	
 	
 
 	//direction = { -1,0 }; needs to be implemented
@@ -149,16 +150,22 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 		
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT)
 		{
-			if (current_animation != &punch)
-			{
-				punch.Reset();
-				current_animation = &punch;
-				state = FIGHT;
-			}
+			
+				if (current_animation != &punch)
+				{
+					punch.Reset();
+					current_animation = &punch;
+				}
+				else if (current_animation == &punch) {
+					punch.Finished();
+					current_animation = &idle;
+					state = FIGHT;
+				}
 			
 			
+			state = FIGHT;
 			
 		}
 
@@ -367,15 +374,16 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN ) {
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT ) {
 
-			if (current_animation != &punch)
+			if (current_animation == &punch)
 			{
-				punch.Reset();
-				current_animation = &punch;
+				punch.Finished();
+				current_animation = &idle;
+				state = FIGHT;
 			}
 
-			state = FIGHT;
+			
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
