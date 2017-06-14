@@ -33,15 +33,19 @@ public:
 	Animation punch;
 	iPoint original_position;
 	iPoint current_position;
-	void jumping();
+	/*void jumping();
 	float gravity;
-	float kilos;
+	float kilos;*/
 	void OnCollision(Collider* c1, Collider* c2);
 
-	Collider* player_collider;
+	Collider* player_collider = nullptr;
 	iPoint collider_offset;
-	uint sdl_clock_start;
-	uint sdl_clock;
+	/*bool colliderisplayer;*/
+
+	/*Collider* crouch_collider = nullptr;
+	iPoint crouch_collider_offset;
+	bool collideriscrouch;*/
+
 	
 	//iPoint direction = { 0,1 }; still needs to be implemented
 private:

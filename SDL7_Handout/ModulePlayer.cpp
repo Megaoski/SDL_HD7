@@ -68,13 +68,15 @@ bool ModulePlayer::Start()
 	
 	
 
-	//direction = { -1,0 }; needs to be implemented
-	
-	
-	collider_offset.x = 7;
-	collider_offset.y = 2;
-	player_collider = App->collision->AddCollider({0, 0, 37, 50}, COLLIDER_PLAYER, this);
 
+	
+	
+	collider_offset.x = 18;
+	collider_offset.y = 10;
+	player_collider = App->collision->AddCollider({0, 0, 15, 40}, COLLIDER_PLAYER, this);
+
+	
+	
 	current_animation = &idle;
 	state = IDLE;
 
@@ -90,6 +92,7 @@ bool ModulePlayer::CleanUp()
 	
 	if (player_collider != nullptr)
 		player_collider->to_delete = true;
+	
 
 	return true;
 }
@@ -97,9 +100,10 @@ bool ModulePlayer::CleanUp()
 // Update: draw background
 update_status ModulePlayer::Update()
 {
+
+	
 	int speed = 2;
-	gravity = 0.8f;
-	kilos = 10;
+	
 	
 	switch (state) {
 
@@ -132,12 +136,15 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
+			
+			
 			current_animation = &down;
 			state = CROUCH;
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP)
 		{
+			
 			current_animation = &idle;
 			state = IDLE;
 		}
@@ -153,10 +160,12 @@ update_status ModulePlayer::Update()
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT)
 		{
 			
+
 				if (current_animation != &punch)
 				{
 					punch.Reset();
 					current_animation = &punch;
+					state = FIGHT;
 				}
 				else if (current_animation == &punch) {
 					punch.Finished();
@@ -165,7 +174,7 @@ update_status ModulePlayer::Update()
 				}
 			
 			
-			state = FIGHT;
+			/*state = FIGHT;*/
 			
 		}
 
@@ -312,11 +321,13 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
+			
 			current_animation = &down;
 			state = CROUCH;
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+			
 			current_animation = &idle;
 			state = IDLE;
 		}
@@ -399,12 +410,14 @@ update_status ModulePlayer::Update()
 
 	
 
+	
 
+	
+	
 
 	
 	player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);
-	
-	
+
 	App->render->Blit(graphics, current_position.x, current_position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
@@ -428,14 +441,3 @@ void ModulePlayer::OnCollision( Collider* c1, Collider* c2)
 
 }
 
-void ModulePlayer::jumping()
-{
-	current_position.y -= gravity;
-}
-//bool ModulePlayer::isGrounded()
-//{
-//	if (position.y == 134)
-//		return true;
-//	else
-//		return false;
-//}
