@@ -41,9 +41,9 @@ ModulePlayer::ModulePlayer()
 	/*right.loop = false;*/
 
 
-	punch.SetUp(0, 70, 60, 52, 3, 3, "0,1,2");
-	punch.speed = 0.1f;
-	punch.loop = true;
+	punch.SetUp(0, 70, 60, 52, 1, 1, "0");
+	punch.speed = 0.2f;
+	punch.loop = false;
 }
 
 ModulePlayer::~ModulePlayer()
@@ -151,8 +151,21 @@ update_status ModulePlayer::Update()
 		
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
 		{
-			current_animation = &punch;
-			state = FIGHT;
+			if (current_animation != &punch)
+			{
+				punch.Reset();
+				current_animation = &punch;
+				state = FIGHT;
+			}
+			
+			
+			
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+			
+			current_animation = &idle;
+			state = IDLE;
 		}
 
 		
@@ -194,6 +207,23 @@ update_status ModulePlayer::Update()
 			current_animation = &idle;
 			state = IDLE;
 		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
+
+			if (current_animation != &punch)
+			{
+				punch.Reset();
+				current_animation = &punch;
+			}
+
+			state = FIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+
+			current_animation = &idle;
+			state = IDLE;
+		}
 		break;
 	case RIGHT:
 
@@ -228,6 +258,23 @@ update_status ModulePlayer::Update()
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
+
+			if (current_animation != &punch)
+			{
+				punch.Reset();
+				current_animation = &punch;
+			}
+
+			state = FIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+
 			current_animation = &idle;
 			state = IDLE;
 		}
@@ -266,6 +313,23 @@ update_status ModulePlayer::Update()
 			current_animation = &idle;
 			state = IDLE;
 		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
+
+			if (current_animation != &punch)
+			{
+				punch.Reset();
+				current_animation = &punch;
+			}
+
+			state = FIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+
+			current_animation = &idle;
+			state = IDLE;
+		}
 		break;
 	case FIGHT:
 
@@ -283,8 +347,8 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
-			current_animation = &down;
-			state = CROUCH;
+			current_animation = &punch;
+			state = FIGHT;
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
@@ -292,13 +356,30 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
+		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_DOWN)
 		{
 			current_animation = &down;
 			state = CROUCH;
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+			current_animation = &idle;
+			state = IDLE;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN ) {
+
+			if (current_animation != &punch)
+			{
+				punch.Reset();
+				current_animation = &punch;
+			}
+
+			state = FIGHT;
+		}
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+			
 			current_animation = &idle;
 			state = IDLE;
 		}

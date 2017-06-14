@@ -4,6 +4,9 @@
 #include "Module.h"
 #include "Animation.h"
 #include "p2Point.h"
+#include "SDL/include/SDL.h"
+
+
 
 struct SDL_Texture;
 struct Collider;
@@ -38,6 +41,7 @@ public:
 	Collider* player_collider;
 	iPoint collider_offset;
 	bool jump;
+	bool punching = false;
 	//iPoint direction = { 0,1 }; still needs to be implemented
 private:
 	enum player_state {
