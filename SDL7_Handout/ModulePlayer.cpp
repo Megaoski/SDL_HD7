@@ -81,7 +81,7 @@ bool ModulePlayer::Start()
 	
 	current_animation = &idle;
 	state = IDLE;
-
+	
 	return true;
 }
 
@@ -103,27 +103,24 @@ bool ModulePlayer::CleanUp()
 update_status ModulePlayer::Update()
 {
 
-	
+
 	int speed = 2;
 	
-	
+
 	switch (state) {
 
 	case IDLE:
 		player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);//DEFAULT COLLIDER FOR IDLE
-		punched = false;
+		current_animation = &idle;
+		
+
 
 		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
 			current_position.x -= speed;
-			current_animation = &left;			
+			current_animation = &left;
 			state = LEFT;
 		}
-
-		//if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { //con esto se evita que se quede calada la animacion al soltar la tecla
-		//	current_animation = &idle;
-		//	state = IDLE;
-		//}
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
@@ -132,60 +129,24 @@ update_status ModulePlayer::Update()
 			state = RIGHT;
 		}
 
-		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP)
-		{
-			current_animation = &idle;
-			state = IDLE;
-		}*/
-
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
 			App->collision->ColliderSize(player_collider, { 0, 0, 15, 20 });
 			player_collider->SetPos(current_position.x + crouch_collider_offset.x, current_position.y + crouch_collider_offset.y);
-			
+
 			current_animation = &down;
 			state = CROUCH;
 		}
 
-		/*if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) NO NEEDED BECAUSE IN CROUCH ALREADY DOES IT
-		{
-			App->collision->ColliderSize(player_collider, { 0, 0, 15, 40 });
-			current_animation = &idle;
-			state = IDLE;
-		}*/
 
-		
-		
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT && punched == false)
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
 		{
-			
-			current_animation = &punch;
+
 			state = FIGHT;
-			/*punched = true;*/
-				/*if (current_animation != &punch)
-				{
-					punch.Reset();
-					current_animation = &punch;
-					state = FIGHT;
-				}*/
-				//else if (current_animation == &punch) {
-				//	punch.Finished();
-				//	current_animation = &idle;
-				//	state = IDLE; // PUEDE JODER LAS COSAS, SI ESO CAMBIAR A FIGHT
-				//}
-			
-			
-			/*state = FIGHT;*/
-			
+
+
 		}
 
-	/*	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
-			
-			current_animation = &idle;
-			state = IDLE;
-		}*/
-
-		
 		break;
 
 	case LEFT:
@@ -211,11 +172,7 @@ update_status ModulePlayer::Update()
 			state = RIGHT;
 		}
 
-		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
-			current_animation = &idle;
-			state = IDLE;
-		}*/
-
+		
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
 			App->collision->ColliderSize(player_collider, { 0, 0, 15, 20 });
@@ -224,27 +181,14 @@ update_status ModulePlayer::Update()
 			state = CROUCH;
 		}
 
-		/*if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
-			current_animation = &idle;
-			state = IDLE;
-		}*/
-
+		
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
 
-			if (current_animation != &punch)
-			{
-				punch.Reset();
-				current_animation = &punch;
-			}
+
 
 			state = FIGHT;
 		}
 
-		//if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
-
-		//	current_animation = &idle;
-		//	state = IDLE;
-		//}
 		break;
 	case RIGHT:
 
@@ -256,11 +200,6 @@ update_status ModulePlayer::Update()
 			current_animation = &left;
 			state = LEFT;
 		}
-
-		/*if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) {
-			current_animation = &idle;
-			state = IDLE;
-		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
@@ -282,27 +221,14 @@ update_status ModulePlayer::Update()
 			state = CROUCH;
 		}
 
-		/*if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
-			current_animation = &idle;
-			state = IDLE;
-		}*/
-
+		
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
 
-			if (current_animation != &punch)
-			{
-				punch.Reset();
-				current_animation = &punch;
-			}
+
 
 			state = FIGHT;
 		}
 
-		//if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
-
-		//	current_animation = &idle;
-		//	state = IDLE;
-		//}
 		break;
 	case CROUCH:
 
@@ -312,25 +238,16 @@ update_status ModulePlayer::Update()
 			state = CROUCH;
 		}
 
-		//if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
-		//	current_animation = &idle;
-		//	state = IDLE;
-		//}
-
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
 			current_animation = &down;
 			state = CROUCH;
 		}
 
-		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
-			current_animation = &idle;
-			state = IDLE;
-		}*/
-
+		
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
-			
+
 			current_animation = &down;
 			state = CROUCH;
 		}
@@ -344,109 +261,31 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
 
-			if (current_animation != &punch)
-			{
-				punch.Reset();
-				current_animation = &punch;
-			}
+
 
 			state = FIGHT;
 		}
 
-		/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
-
-			current_animation = &idle;
-			state = IDLE;
-		}*/
 		break;
 	case FIGHT:
-		sdl_clock = SDL_GetTicks();
-		
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
+		current_animation = &punch;
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP)
 		{
-			current_animation = &punch;
-			state = FIGHT;
-		}
-
-		//if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
-		//	current_animation = &idle;
-		//	state = IDLE;
-		//}
-
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
-		{
-			current_animation = &punch;
-			state = FIGHT;
-		}
-
-		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
-			current_animation = &idle;
 			state = IDLE;
-		}*/
-
-		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_DOWN)
-		{
-			App->collision->ColliderSize(player_collider, { 0, 0, 15, 20 });
-			player_collider->SetPos(current_position.x + crouch_collider_offset.x, current_position.y + crouch_collider_offset.y);
-			current_animation = &down;
-			state = CROUCH;
 		}
 
-	/*	if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
-			current_animation = &idle;
-			state = IDLE;
-		}*/
-
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT/* && punched == true*//*&& sdl_clock >= 1000*/) {
-
-			//if (current_animation == &punch)
-			//{
-			//	punch.Finished();
-			//	current_animation = &idle;
-			//	state = FIGHT; //ESTO HACE QUE EL PUNCH NO HAGA TEMBLEQUE INDEFINIDO
-			//}
-			if (sdl_clock <= 3000) {
-				current_animation = &punch;
-				punched = true;
-			}
-			else {
-				/*current_animation = &idle;*/
-				state = IDLE;
-				punched = true;
-				/*punched = false;*/
-			}
-			/*punched = true;*/
-		}
-
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
-			
-			current_animation = &idle;
-			state = IDLE;
-			punched = false;
-		}
 		break;
 
-
-
-	} //finish switch
-
-	
-
-	
-
-	
-	
-
-	
-	//player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);//default collider idle position
-
+	}
+			
 	App->render->Blit(graphics, current_position.x, current_position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
 }
 
-// TODO 4: Detect collision with a wall. If so, go back to intro screen.
+	
  
 void ModulePlayer::OnCollision( Collider* c1, Collider* c2)
 {

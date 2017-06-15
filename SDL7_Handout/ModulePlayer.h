@@ -6,7 +6,7 @@
 #include "p2Point.h"
 #include "SDL/include/SDL.h"
 
-
+#define COOLDOWN 3000
 
 struct SDL_Texture;
 struct Collider;
@@ -43,8 +43,7 @@ public:
 	iPoint collider_offset;
 	iPoint crouch_collider_offset;
 	uint sdl_clock;
-	uint sdl_clock2;
-	bool punched;
+	bool yahaclickao;
 	
 
 	
