@@ -119,10 +119,10 @@ update_status ModulePlayer::Update()
 			state = LEFT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { //con esto se evita que se quede calada la animacion al soltar la tecla
-			current_animation = &idle;
-			state = IDLE;
-		}
+		//if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { //con esto se evita que se quede calada la animacion al soltar la tecla
+		//	current_animation = &idle;
+		//	state = IDLE;
+		//}
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
@@ -131,11 +131,11 @@ update_status ModulePlayer::Update()
 			state = RIGHT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP)
+		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP)
 		{
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
@@ -182,17 +182,19 @@ update_status ModulePlayer::Update()
 			
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+	/*	if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
 			
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		
 		break;
 
 	case LEFT:
 
+		player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);
+
 		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
 			current_position.x -= speed;
@@ -212,21 +214,23 @@ update_status ModulePlayer::Update()
 			state = RIGHT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
+		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
+			App->collision->ColliderSize(player_collider, { 0, 0, 15, 20 });
+			player_collider->SetPos(current_position.x + crouch_collider_offset.x, current_position.y + crouch_collider_offset.y);
 			current_animation = &down;
 			state = CROUCH;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+		/*if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
 
@@ -239,14 +243,16 @@ update_status ModulePlayer::Update()
 			state = FIGHT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+		//if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
 
-			current_animation = &idle;
-			state = IDLE;
-		}
+		//	current_animation = &idle;
+		//	state = IDLE;
+		//}
 		break;
 	case RIGHT:
 
+		player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);
+
 		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
 			current_position.x -= speed;
@@ -254,10 +260,10 @@ update_status ModulePlayer::Update()
 			state = LEFT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) {
+		/*if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) {
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
@@ -273,14 +279,16 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
+			App->collision->ColliderSize(player_collider, { 0, 0, 15, 20 });
+			player_collider->SetPos(current_position.x + crouch_collider_offset.x, current_position.y + crouch_collider_offset.y);
 			current_animation = &down;
 			state = CROUCH;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+		/*if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN) {
 
@@ -293,11 +301,11 @@ update_status ModulePlayer::Update()
 			state = FIGHT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+		//if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
 
-			current_animation = &idle;
-			state = IDLE;
-		}
+		//	current_animation = &idle;
+		//	state = IDLE;
+		//}
 		break;
 	case CROUCH:
 
@@ -307,10 +315,10 @@ update_status ModulePlayer::Update()
 			state = CROUCH;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
-			current_animation = &idle;
-			state = IDLE;
-		}
+		//if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
+		//	current_animation = &idle;
+		//	state = IDLE;
+		//}
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
@@ -318,10 +326,10 @@ update_status ModulePlayer::Update()
 			state = CROUCH;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
+		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
@@ -348,11 +356,11 @@ update_status ModulePlayer::Update()
 			state = FIGHT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
+		/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
 
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 		break;
 	case FIGHT:
 
@@ -363,10 +371,10 @@ update_status ModulePlayer::Update()
 			state = FIGHT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
-			current_animation = &idle;
-			state = IDLE;
-		}
+		//if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_UP) { // MIGH NOT NEED THIS HERE
+		//	current_animation = &idle;
+		//	state = IDLE;
+		//}
 
 		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_REPEAT && App->player->current_position.x <= 342)
 		{
@@ -374,21 +382,23 @@ update_status ModulePlayer::Update()
 			state = FIGHT;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
+		/*if (App->input->keyboard[SDL_SCANCODE_D] == KEY_STATE::KEY_UP) {
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_DOWN)
 		{
+			App->collision->ColliderSize(player_collider, { 0, 0, 15, 20 });
+			player_collider->SetPos(current_position.x + crouch_collider_offset.x, current_position.y + crouch_collider_offset.y);
 			current_animation = &down;
 			state = CROUCH;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
+	/*	if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT ) {
 
