@@ -271,7 +271,15 @@ update_status ModulePlayer::Update()
 	case FIGHT:
 
 		current_animation = &punch;
-		Punching();
+
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT) {
+			uint time = SDL_GetTicks();
+			Punching(time);
+		}
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP)
+		{
+			state = IDLE;
+		}
 
 		//timer = true;
 
@@ -304,10 +312,11 @@ update_status ModulePlayer::Update()
 	return UPDATE_CONTINUE;
 }
 
-void ModulePlayer::Punching()
+void ModulePlayer::Punching(uint time)
 {
-	sdl_clock = SDL_GetTicks();
-	if (sdl_clock >= 3000)
+	sdl_clock = SDL_GetTicks() + time;
+
+	if (sdl_clock >= 4000)
 	{
 		state = IDLE;
 	}

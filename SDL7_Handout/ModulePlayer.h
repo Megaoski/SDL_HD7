@@ -46,7 +46,7 @@ public:
 	uint timer;
 	bool yahaclickao;
 	bool salimos;
-	void Punching();
+	void Punching(uint time);
 
 	
 	//iPoint direction = { 0,1 }; still needs to be implemented
