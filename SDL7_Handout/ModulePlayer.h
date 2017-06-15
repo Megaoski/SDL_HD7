@@ -42,11 +42,10 @@ public:
 	Collider* player_collider = nullptr;
 	iPoint collider_offset;
 	iPoint crouch_collider_offset;
-	/*bool colliderisplayer;*/
-
-	/*Collider* crouch_collider = nullptr;
-	iPoint crouch_collider_offset;
-	bool collideriscrouch;*/
+	uint sdl_clock;
+	uint sdl_clock2;
+	bool punched;
+	
 
 	
 	//iPoint direction = { 0,1 }; still needs to be implemented

@@ -111,6 +111,7 @@ update_status ModulePlayer::Update()
 
 	case IDLE:
 		player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);//DEFAULT COLLIDER FOR IDLE
+		punched = false;
 
 		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
@@ -153,29 +154,25 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}*/
 
-		if (App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_DOWN && App->player->current_position.y >= 60)
-		{
-			
-
-			current_animation = &idle;
-			state = IDLE;
-		}
 		
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT)
+		
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT && punched == false)
 		{
 			
-
-				if (current_animation != &punch)
+			current_animation = &punch;
+			state = FIGHT;
+			/*punched = true;*/
+				/*if (current_animation != &punch)
 				{
 					punch.Reset();
 					current_animation = &punch;
 					state = FIGHT;
-				}
-				else if (current_animation == &punch) {
-					punch.Finished();
-					current_animation = &idle;
-					state = IDLE; // PUEDE JODER LAS COSAS, SI ESO CAMBIAR A FIGHT
-				}
+				}*/
+				//else if (current_animation == &punch) {
+				//	punch.Finished();
+				//	current_animation = &idle;
+				//	state = IDLE; // PUEDE JODER LAS COSAS, SI ESO CAMBIAR A FIGHT
+				//}
 			
 			
 			/*state = FIGHT;*/
@@ -363,7 +360,8 @@ update_status ModulePlayer::Update()
 		}*/
 		break;
 	case FIGHT:
-
+		sdl_clock = SDL_GetTicks();
+		
 
 		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
@@ -400,22 +398,32 @@ update_status ModulePlayer::Update()
 			state = IDLE;
 		}*/
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT ) {
+		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT/* && punched == true*//*&& sdl_clock >= 1000*/) {
 
-			if (current_animation == &punch)
-			{
-				punch.Finished();
-				current_animation = &idle;
-				state = FIGHT; //ESTO HACE QUE EL PUNCH NO HAGA TEMBLEQUE INDEFINIDO
+			//if (current_animation == &punch)
+			//{
+			//	punch.Finished();
+			//	current_animation = &idle;
+			//	state = FIGHT; //ESTO HACE QUE EL PUNCH NO HAGA TEMBLEQUE INDEFINIDO
+			//}
+			if (sdl_clock <= 3000) {
+				current_animation = &punch;
+				punched = true;
 			}
-
-			
+			else {
+				/*current_animation = &idle;*/
+				state = IDLE;
+				punched = true;
+				/*punched = false;*/
+			}
+			/*punched = true;*/
 		}
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP) {
 			
 			current_animation = &idle;
 			state = IDLE;
+			punched = false;
 		}
 		break;
 
