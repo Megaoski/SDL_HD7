@@ -73,8 +73,10 @@ bool ModulePlayer::Start()
 	
 	collider_offset.x = 18;
 	collider_offset.y = 10;
-	player_collider = App->collision->AddCollider({0, 0, 15, 40}, COLLIDER_PLAYER, this);
+	player_collider = App->collision->AddCollider({0, 10, 15, 40}, COLLIDER_PLAYER, this);
 
+	crouch_collider_offset.x = 18;
+	crouch_collider_offset.y = 30 ;
 	
 	
 	current_animation = &idle;
@@ -108,6 +110,7 @@ update_status ModulePlayer::Update()
 	switch (state) {
 
 	case IDLE:
+		player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);//DEFAULT COLLIDER FOR IDLE
 
 		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
@@ -136,18 +139,19 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_REPEAT)
 		{
-			App->collision->ColliderSize(player_collider, { 0, 0, 100, 40 });
+			App->collision->ColliderSize(player_collider, { 0, 0, 15, 20 });
+			player_collider->SetPos(current_position.x + crouch_collider_offset.x, current_position.y + crouch_collider_offset.y);
 			
 			current_animation = &down;
 			state = CROUCH;
 		}
 
-		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP)
+		/*if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) NO NEEDED BECAUSE IN CROUCH ALREADY DOES IT
 		{
 			App->collision->ColliderSize(player_collider, { 0, 0, 15, 40 });
 			current_animation = &idle;
 			state = IDLE;
-		}
+		}*/
 
 		if (App->input->keyboard[SDL_SCANCODE_W] == KEY_STATE::KEY_DOWN && App->player->current_position.y >= 60)
 		{
@@ -328,6 +332,7 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_S] == KEY_STATE::KEY_UP) {
 			App->collision->ColliderSize(player_collider, { 0, 0, 15, 40 });
+			player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);
 			current_animation = &idle;
 			state = IDLE;
 		}
@@ -416,7 +421,7 @@ update_status ModulePlayer::Update()
 	
 
 	
-	player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);
+	//player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);//default collider idle position
 
 	App->render->Blit(graphics, current_position.x, current_position.y, &(current_animation->GetCurrentFrame()));
 

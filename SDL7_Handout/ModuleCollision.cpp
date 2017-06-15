@@ -214,14 +214,10 @@ void ModuleCollision::ColliderSize(Collider* collider, SDL_Rect rectNew)//con es
 	
 		collider->rect.w = rectNew.w;
 		collider->rect.h = rectNew.h;
+		collider->rect.x = rectNew.x;
+		collider->rect.y = rectNew.y;
 			
-		if (ReverseSize == true)
-		{
-			collider->rect.w = collider->rect.w;
-			collider->rect.h = collider->rect.h;
-
-			ReverseSize = false;
-		}
+		
 		
 	}
 

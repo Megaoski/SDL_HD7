@@ -41,6 +41,7 @@ public:
 
 	Collider* player_collider = nullptr;
 	iPoint collider_offset;
+	iPoint crouch_collider_offset;
 	/*bool colliderisplayer;*/
 
 	/*Collider* crouch_collider = nullptr;
