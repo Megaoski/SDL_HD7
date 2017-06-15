@@ -141,7 +141,8 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
 		{
-
+			
+			/*yahaclickao = true;*/
 			state = FIGHT;
 
 
@@ -270,11 +271,29 @@ update_status ModulePlayer::Update()
 	case FIGHT:
 
 		current_animation = &punch;
+		Punching();
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP)
-		{
-			state = IDLE;
-		}
+		//timer = true;
+
+		//if (timer == true) {
+		//	sdl_clock = SDL_GetTicks();
+		//}
+		//if (yahaclickao == true && sdl_clock >= 3000)
+		//{
+		//	
+		//	/*timer = false;*/
+		//	salimos = true;
+		//	yahaclickao = false;
+		//	
+		//	
+		//}
+		//if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP || salimos == true) {
+
+		//	sdl_clock = 0;
+		//	timer = false;
+		//	state = IDLE;
+		//}
+		//
 
 		break;
 
@@ -283,6 +302,17 @@ update_status ModulePlayer::Update()
 	App->render->Blit(graphics, current_position.x, current_position.y, &(current_animation->GetCurrentFrame()));
 
 	return UPDATE_CONTINUE;
+}
+
+void ModulePlayer::Punching()
+{
+	sdl_clock = SDL_GetTicks();
+	if (sdl_clock >= 3000)
+	{
+		state = IDLE;
+	}
+	else
+		state = FIGHT;
 }
 
 	

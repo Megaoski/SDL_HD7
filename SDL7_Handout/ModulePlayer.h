@@ -43,8 +43,10 @@ public:
 	iPoint collider_offset;
 	iPoint crouch_collider_offset;
 	uint sdl_clock;
+	uint timer;
 	bool yahaclickao;
-	
+	bool salimos;
+	void Punching();
 
 	
 	//iPoint direction = { 0,1 }; still needs to be implemented
