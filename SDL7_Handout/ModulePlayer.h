@@ -43,9 +43,8 @@ public:
 	iPoint collider_offset;
 	iPoint crouch_collider_offset;
 	uint sdl_clock;
-	uint timer;
 	bool yahaclickao;
-	bool salimos;
+	bool reloj;
 	void Punching(uint time);
 
 	

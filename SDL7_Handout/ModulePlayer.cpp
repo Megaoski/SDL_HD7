@@ -112,8 +112,8 @@ update_status ModulePlayer::Update()
 	case IDLE:
 		player_collider->SetPos(current_position.x + collider_offset.x, current_position.y + collider_offset.y);//DEFAULT COLLIDER FOR IDLE
 		current_animation = &idle;
+		yahaclickao = false;
 		
-
 
 		if (App->input->keyboard[SDL_SCANCODE_A] == KEY_STATE::KEY_REPEAT && App->player->current_position.x >= -7)
 		{
@@ -141,8 +141,6 @@ update_status ModulePlayer::Update()
 
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_DOWN)
 		{
-			
-			/*yahaclickao = true;*/
 			state = FIGHT;
 
 
@@ -270,38 +268,35 @@ update_status ModulePlayer::Update()
 		break;
 	case FIGHT:
 
-		current_animation = &punch;
+		/*current_animation = &punch;*/
+		yahaclickao = true;
+	
 
-		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT) {
+		if (yahaclickao == true)
+		{
+			reloj = true;
+			if (reloj == true)
+			{
+				uint timer = SDL_GetTicks();
+				if(timer < 3000) {
+					current_animation = &punch;
+				}
+				reloj = false;
+			}
+			
+			yahaclickao = false;
+		}
+		state = IDLE;
+		/*if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_REPEAT) {
 			uint time = SDL_GetTicks();
 			Punching(time);
 		}
 		if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP)
 		{
 			state = IDLE;
-		}
+		}*/
 
-		//timer = true;
-
-		//if (timer == true) {
-		//	sdl_clock = SDL_GetTicks();
-		//}
-		//if (yahaclickao == true && sdl_clock >= 3000)
-		//{
-		//	
-		//	/*timer = false;*/
-		//	salimos = true;
-		//	yahaclickao = false;
-		//	
-		//	
-		//}
-		//if (App->input->keyboard[SDL_SCANCODE_SPACE] == KEY_STATE::KEY_UP || salimos == true) {
-
-		//	sdl_clock = 0;
-		//	timer = false;
-		//	state = IDLE;
-		//}
-		//
+		
 
 		break;
 
